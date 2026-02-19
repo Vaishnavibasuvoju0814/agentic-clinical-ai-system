@@ -1,0 +1,167 @@
+
+        <html>
+        <head>
+            <title>Ckd Medical Assessment Report</title>
+            <style>
+                body {
+                    font-family: Arial;
+                    margin: 40px;
+                    background-color: #f8f9fa;
+                }
+                h1 {
+                    color: #2c3e50;
+                }
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 20px;
+                }
+                th, td {
+                    border: 1px solid #ccc;
+                    padding: 8px;
+                    text-align: center;
+                }
+                th {
+                    background-color: #2980b9;
+                    color: white;
+                }
+                .prob-box {
+                    margin-top: 30px;
+                    padding: 20px;
+                    border: 2px solid #e74c3c;
+                    font-size: 20px;
+                    text-align: center;
+                    background-color: #fff;
+                }
+                .section {
+                    margin-top: 30px;
+                }
+            </style>
+        </head>
+        <body>
+
+        <h1>Medical Assessment Report</h1>
+        <p><i>Generated on: 2026-02-14 18:28:48</i></p>
+
+        <div class="section">
+            <h2>Disease: Ckd</h2>
+            <p><b>Best Model Selected:</b> LightGBM</p>
+        </div>
+
+        <div class="section">
+            <h2>Model Performance Comparison</h2>
+            <table>
+                <tr>
+                    <th>Model</th>
+                    <th>Accuracy</th>
+                    <th>Recall</th>
+                    <th>F1 Score</th>
+                    <th>AUC</th>
+                </tr>
+                <tr>
+                    <td>Logistic Regression</td>
+                    <td>0.7912</td>
+                    <td>0.8026</td>
+                    <td>0.8756</td>
+                    <td>0.8542</td>
+                </tr>
+                <tr>
+                    <td>LightGBM</td>
+                    <td>0.9357</td>
+                    <td>0.9825</td>
+                    <td>0.9655</td>
+                    <td>0.9338</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>Physiological Data & SHAP Contributions</h2>
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>SHAP Value</th>
+                    <th>Contribution</th>
+                </tr>
+                
+            <tr>
+                <td>PatientID</td>
+                <td>0.2733</td>
+                <td>High</td>
+            </tr>
+            
+            <tr>
+                <td>Age</td>
+                <td>-0.0391</td>
+                <td>Low</td>
+            </tr>
+            
+            <tr>
+                <td>Gender</td>
+                <td>-0.1743</td>
+                <td>Low</td>
+            </tr>
+            
+            <tr>
+                <td>Ethnicity</td>
+                <td>0.0007</td>
+                <td>High</td>
+            </tr>
+            
+            <tr>
+                <td>SocioeconomicStatus</td>
+                <td>0.0071</td>
+                <td>High</td>
+            </tr>
+            
+            <tr>
+                <td>EducationLevel</td>
+                <td>-0.0162</td>
+                <td>Low</td>
+            </tr>
+            
+            <tr>
+                <td>BMI</td>
+                <td>-0.1029</td>
+                <td>Low</td>
+            </tr>
+            
+            <tr>
+                <td>Smoking</td>
+                <td>-0.0189</td>
+                <td>Low</td>
+            </tr>
+            
+            <tr>
+                <td>AlcoholConsumption</td>
+                <td>-0.7963</td>
+                <td>Low</td>
+            </tr>
+            
+            <tr>
+                <td>PhysicalActivity</td>
+                <td>0.0133</td>
+                <td>High</td>
+            </tr>
+            
+            </table>
+        </div>
+
+        <div class="prob-box">
+            Predicted Probability: 99.99% <br>
+            Risk Level: High Risk
+        </div>
+
+        <div class="section">
+            <h2>Interpretation</h2>
+            <p>
+        The patient shows a <b>High Risk</b> for Ckd with a predicted probability 
+        of <b>99.99%</b>. The SHAP analysis highlights the most influential 
+        clinical features contributing to this assessment. This automated evaluation 
+        supports clinical decision-making but should be reviewed by medical professionals.
+        </p>
+        </div>
+
+        </body>
+        </html>
+        

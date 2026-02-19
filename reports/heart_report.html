@@ -1,0 +1,167 @@
+
+        <html>
+        <head>
+            <title>Heart Medical Assessment Report</title>
+            <style>
+                body {
+                    font-family: Arial;
+                    margin: 40px;
+                    background-color: #f8f9fa;
+                }
+                h1 {
+                    color: #2c3e50;
+                }
+                table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin-top: 20px;
+                }
+                th, td {
+                    border: 1px solid #ccc;
+                    padding: 8px;
+                    text-align: center;
+                }
+                th {
+                    background-color: #2980b9;
+                    color: white;
+                }
+                .prob-box {
+                    margin-top: 30px;
+                    padding: 20px;
+                    border: 2px solid #e74c3c;
+                    font-size: 20px;
+                    text-align: center;
+                    background-color: #fff;
+                }
+                .section {
+                    margin-top: 30px;
+                }
+            </style>
+        </head>
+        <body>
+
+        <h1>Medical Assessment Report</h1>
+        <p><i>Generated on: 2026-02-14 18:28:40</i></p>
+
+        <div class="section">
+            <h2>Disease: Heart</h2>
+            <p><b>Best Model Selected:</b> LightGBM</p>
+        </div>
+
+        <div class="section">
+            <h2>Model Performance Comparison</h2>
+            <table>
+                <tr>
+                    <th>Model</th>
+                    <th>Accuracy</th>
+                    <th>Recall</th>
+                    <th>F1 Score</th>
+                    <th>AUC</th>
+                </tr>
+                <tr>
+                    <td>Logistic Regression</td>
+                    <td>0.8261</td>
+                    <td>0.9048</td>
+                    <td>0.8261</td>
+                    <td>0.9257</td>
+                </tr>
+                <tr>
+                    <td>LightGBM</td>
+                    <td>0.8913</td>
+                    <td>0.9524</td>
+                    <td>0.8889</td>
+                    <td>0.9352</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="section">
+            <h2>Physiological Data & SHAP Contributions</h2>
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>SHAP Value</th>
+                    <th>Contribution</th>
+                </tr>
+                
+            <tr>
+                <td>age</td>
+                <td>-0.6326</td>
+                <td>Low</td>
+            </tr>
+            
+            <tr>
+                <td>sex</td>
+                <td>0.3706</td>
+                <td>High</td>
+            </tr>
+            
+            <tr>
+                <td>cp</td>
+                <td>-1.8708</td>
+                <td>Low</td>
+            </tr>
+            
+            <tr>
+                <td>trestbps</td>
+                <td>-0.4915</td>
+                <td>Low</td>
+            </tr>
+            
+            <tr>
+                <td>chol</td>
+                <td>-0.3828</td>
+                <td>Low</td>
+            </tr>
+            
+            <tr>
+                <td>fbs</td>
+                <td>0.019</td>
+                <td>High</td>
+            </tr>
+            
+            <tr>
+                <td>restecg</td>
+                <td>0.1715</td>
+                <td>High</td>
+            </tr>
+            
+            <tr>
+                <td>thalach</td>
+                <td>-0.3189</td>
+                <td>Low</td>
+            </tr>
+            
+            <tr>
+                <td>exang</td>
+                <td>-0.0981</td>
+                <td>Low</td>
+            </tr>
+            
+            <tr>
+                <td>oldpeak</td>
+                <td>0.1898</td>
+                <td>High</td>
+            </tr>
+            
+            </table>
+        </div>
+
+        <div class="prob-box">
+            Predicted Probability: 1.05% <br>
+            Risk Level: Low Risk
+        </div>
+
+        <div class="section">
+            <h2>Interpretation</h2>
+            <p>
+        The patient shows a <b>Low Risk</b> for Heart with a predicted probability 
+        of <b>1.05%</b>. The SHAP analysis highlights the most influential 
+        clinical features contributing to this assessment. This automated evaluation 
+        supports clinical decision-making but should be reviewed by medical professionals.
+        </p>
+        </div>
+
+        </body>
+        </html>
+        
