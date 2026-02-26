@@ -1,218 +1,189 @@
+🏥 Agentic Clinical AI Framework
 
-# 🏥 Agentic Clinical AI System
+A hybrid multi-disease clinical decision support system combining traditional machine learning, SHAP-based explainability, and CrewAI multi-agent orchestration with local LLM reasoning via Ollama (Mistral).
 
-> Multi-Disease Clinical Risk Assessment System using ML Pipelines, SHAP Explainability, and CrewAI Orchestration.
+📌 Overview
 
----
+This project implements a modular clinical AI system designed to:
 
-## 🚀 Overview
+Train and compare multiple machine learning models
 
-**Agentic Clinical AI System** is a modular, production-style AI framework designed to:
+Automatically select the best model based on AUC
 
-* Perform disease risk prediction
-* Apply feature engineering & preprocessing pipelines
-* Select best ML model dynamically
-* Generate SHAP-based explainability
-* Orchestrate workflow using CrewAI agents
-* Produce structured medical risk reports
+Generate SHAP-based interpretability outputs
 
-This project demonstrates real-world ML system design with agent-based orchestration.
+Use a local LLM (Mistral via Ollama) for clinical reasoning
 
----
+Produce structured medical summary reports
 
-## 🧠 Supported Diseases
+The system demonstrates a production-style hybrid architecture integrating deterministic ML pipelines with LLM-based explanation.
 
-The system currently supports:
+🧠 System Architecture
 
-* ❤️ Cardiovascular Disease
-* 🩸 Diabetes
-* 🫁 (Add your third disease here if applicable)
+The system is organized into independent agents orchestrated by CrewAI.
 
-Each disease has:
+1️⃣ Data Validation Agent
 
-* Dedicated preprocessing pipeline
-* Feature selection
-* Model comparison
-* Risk probability estimation
-* SHAP interpretation
+Validates dataset integrity
 
----
+Ensures correct target configuration
 
-## 🏗️ System Architecture
+Prepares structured inputs
 
-```
-Input Data
-   ↓
-Preprocessing Layer
-   ↓
-Feature Engineering
-   ↓
-Model Selection (LR / RF / LightGBM)
-   ↓
-Risk Prediction
-   ↓
-SHAP Explainability
-   ↓
-CrewAI Agent Orchestration
-   ↓
-Medical Report Generation
-```
+2️⃣ Feature Engineering Agent
 
----
+Applies feature transformations
 
-## 📂 Project Structure
+Removes highly correlated features
 
-```
-agentic-clinical-ai-system/
+Prepares optimized model input
+
+3️⃣ Prediction Agent
+
+Trains and compares:
+
+Logistic Regression
+
+Random Forest
+
+LightGBM
+
+Selects the best model using AUC as the primary metric.
+
+4️⃣ Risk Assessment Agent (LLM – Mistral)
+
+Interprets SHAP contributions
+
+Explains assigned risk level
+
+Generates concise clinical reasoning
+
+5️⃣ Report Generation Agent (LLM – Mistral)
+
+Produces structured medical summaries
+
+Generates clinician-friendly interpretation
+
+Creates HTML report
+
+🏥 Supported Diseases
+
+Heart Disease
+
+Diabetes
+
+Chronic Kidney Disease (CKD)
+
+⚙️ Technology Stack
+
+Python 3.11.x
+
+CrewAI
+
+Ollama (Mistral)
+
+scikit-learn
+
+LightGBM
+
+SHAP
+
+Pandas
+
+NumPy
+
+Jinja2
+
+Matplotlib
+
+Seaborn
+
+📂 Project Structure
+AgenticAI-framework/
 │
-├── config/              # Configuration settings
-├── crew/                # CrewAI agent definitions
-├── tools/               # ML tools & processing modules
-├── data/                # Datasets
-├── reports/             # Generated reports
+├── agents/                    # Core ML & explainability logic
+│   ├── data_agent.py
+│   ├── feature_agent.py
+│   ├── prediction_agent.py
+│   ├── explainability_agent.py
+│   └── report_agent.py
 │
-├── main.py              # Entry point
-├── requirements.txt     # Project dependencies
-└── README.md
-```
-
----
-
-## ⚙️ Tech Stack
-
-* Python 3.11
-* Scikit-learn
-* LightGBM
-* SHAP
-* Pandas / NumPy
-* CrewAI
-* Ollama (for LLM-based report interpretation)
-
----
-
-## 🔬 Machine Learning Pipeline
-
-Each disease pipeline includes:
-
-* Missing value handling
-* Encoding
-* Feature scaling
-* Feature selection (SelectKBest)
-* Model comparison
-* Best model selection
-* Risk probability output
-* SHAP interpretation
-
----
-
-## 🤖 Agent Orchestration (CrewAI)
-
-Agents are responsible for:
-
-* Preprocessing management
-* Model execution
-* Risk analysis
-* Report generation
-* Explainability summarization
-
-This makes the system modular and extensible.
-
----
-
-## 📊 Model Comparison
-
-Models evaluated:
-
-* Logistic Regression
-* Random Forest
-* LightGBM
-
-Best performing model selected dynamically per disease.
-
----
-
-## 📝 Report Generation
-
-System produces:
-
-* Risk probability
-* Risk level classification
-* Top influencing features (SHAP)
-* Clinical interpretation
-* Structured medical summary
-
----
-
-## 🛠️ Installation
-
-Clone the repository:
-
-```bash
-git clone https://github.com/Vaishnavibasuvoju0814/agentic-clinical-ai-system.git
+├── crew/                      # CrewAI orchestration layer
+│   ├── agents.py
+│   ├── orchestrator.py
+│   └── llm_config.py
+│
+├── config/                    # Disease configuration files
+│
+├── utils/                     # Preprocessing & helper utilities
+│
+├── data/                      # Input datasets
+│
+├── reports/                   # Generated HTML reports
+│
+├── main.py                    # Entry point
+└── requirements.txt
+🚀 Installation
+Step 1 — Clone Repository
+git clone https://github.com/yourusername/agentic-clinical-ai-system.git
 cd agentic-clinical-ai-system
-```
-
-Create virtual environment:
-
-```bash
+Step 2 — Create Virtual Environment
 python -m venv venv
-```
-
-Activate:
-
-**Windows**
-
-```bash
-venv\Scripts\activate
-```
-
-Install dependencies:
-
-```bash
+venv\Scripts\activate   # Windows
+Step 3 — Install Dependencies
 pip install -r requirements.txt
-```
+Step 4 — Install Ollama & Pull Mistral
 
----
+Install Ollama from:
 
-## ▶️ Run The Project
+https://ollama.com
 
-```bash
-python main.py
-```
+Then run:
 
----
+ollama pull mistral
 
-## 🎯 Key Features
+Ensure the Ollama server is running.
 
-✔ Modular ML pipelines
+▶️ Running the System
+
+Execute for any supported disease:
+
+python main.py heart
+python main.py diabetes
+python main.py ckd
+📊 Output
+
+Each execution produces:
+
+Model performance comparison
+
+Best model selection (AUC-based)
+
+Predicted probability
+
+Risk classification
+
+SHAP explanation
+
+LLM-generated clinical interpretation
+
+HTML medical report saved in /reports
+
+🎯 Key Capabilities
+
 ✔ Multi-disease support
-✔ SHAP explainability
-✔ Agent-based orchestration
-✔ Clean production folder structure
-✔ Extendable architecture
+✔ Automatic model comparison & selection
+✔ SHAP-based explainability
+✔ Local LLM reasoning (no external API)
+✔ Modular CrewAI orchestration
+✔ Structured medical reporting
 
----
+🔮 Future Improvements
 
-## 📌 Future Improvements
+Human-in-the-loop validation
 
-* Web interface (FastAPI / Streamlit)
-* Docker deployment
-* API endpoints
-* Database integration
-* Real-time clinical dashboard
+Model calibration optimization
 
----
+Web interface integration
 
-## 👩‍💻 Author
-
-**Vaishnavi Basuvoju**
-AI/ML Developer
-
----
-
-## ⭐ If You Like This Project
-
-Give it a star on GitHub ⭐
-It helps a lot!
-
----want.
+Continuous learning module
