@@ -1,0 +1,14 @@
+crewai
+langchain
+langchain-ollama
+litellm
+
+pandas
+numpy
+scikit-learn
+lightgbm
+shap
+
+jinja2
+matplotlib
+seaborn

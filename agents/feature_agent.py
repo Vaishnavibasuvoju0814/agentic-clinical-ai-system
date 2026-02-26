@@ -8,37 +8,54 @@ class FeatureSelectionAgent:
 
     def run(self, input_data):
 
-        X = input_data["X"]
+        X = input_data["X"].copy()   # ✅ Avoid modifying original
         y = input_data["y"]
         disease = input_data["disease"]
 
-        # ===== Additional Feature Engineering for Heart & Diabetes =====
-        if disease in ["heart", "diabetes"]:
+        original_feature_count = X.shape[1]
 
-            # Add interaction terms
-            numeric_cols = X.select_dtypes(include=["float64", "int64"]).columns
+        # ======================================================
+        # 1️⃣ Controlled Feature Engineering
+        # ======================================================
+        numeric_cols = X.select_dtypes(include=["float64", "int64"]).columns.tolist()
 
-            for col in numeric_cols[:5]:  # limited to avoid explosion
-                X[f"{col}_squared"] = X[col] ** 2
+        # Add squared terms (limit to first 3 numeric columns)
+        for col in numeric_cols[:3]:
+            X[f"{col}_squared"] = X[col] ** 2
 
-            if len(numeric_cols) >= 2:
-                X["interaction_1"] = X[numeric_cols[0]] * X[numeric_cols[1]]
+        # Add one interaction term only (avoid explosion)
+        if len(numeric_cols) >= 2:
+            X["interaction_1"] = X[numeric_cols[0]] * X[numeric_cols[1]]
 
-        # ===== Correlation Removal =====
+        # ======================================================
+        # 2️⃣ Correlation Removal (Important for LR stability)
+        # ======================================================
         corr_matrix = X.corr().abs()
+
         upper = corr_matrix.where(
             np.triu(np.ones(corr_matrix.shape), k=1).astype(bool)
         )
 
         to_drop = [
             column for column in upper.columns
-            if any(upper[column] > 0.92)
+            if any(upper[column] > 0.90)   # slightly stricter
         ]
 
         X_reduced = X.drop(columns=to_drop)
 
+        # ======================================================
+        # 3️⃣ Feature Metadata
+        # ======================================================
+        metadata = {
+            "original_features": original_feature_count,
+            "engineered_features_added": X.shape[1] - original_feature_count,
+            "features_removed_due_to_correlation": len(to_drop),
+            "final_feature_count": X_reduced.shape[1]
+        }
+
         return {
             "disease": disease,
             "X": X_reduced,
-            "y": y
+            "y": y,
+            "feature_metadata": metadata
         }

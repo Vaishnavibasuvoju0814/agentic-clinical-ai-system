@@ -14,13 +14,19 @@ class ReportAgent:
         shap_values = explain_output["shap_values"]
         contributions = explain_output["contributions"]
 
+        # Metrics
         lr_metrics = prediction_output["lr_metrics"]
+        rf_metrics = prediction_output["rf_metrics"]
         lgb_metrics = prediction_output["lgb_metrics"]
+
         best_model = prediction_output["best_model"]
+        best_metrics = prediction_output["best_metrics"]
 
         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-        # Build SHAP table rows
+        # ======================================================
+        # SHAP Table (Top 10 Features)
+        # ======================================================
         rows = ""
         for feature in list(shap_values.keys())[:10]:
             rows += f"""
@@ -31,13 +37,23 @@ class ReportAgent:
             </tr>
             """
 
+        # ======================================================
+        # Clinical Interpretation
+        # ======================================================
         interpretation = f"""
         The patient shows a <b>{risk}</b> for {disease} with a predicted probability 
-        of <b>{probability:.2f}%</b>. The SHAP analysis highlights the most influential 
-        clinical features contributing to this assessment. This automated evaluation 
-        supports clinical decision-making but should be reviewed by medical professionals.
+        of <b>{probability:.2f}%</b>. The optimal predictive model selected was 
+        <b>{best_model}</b> based on AUC performance comparison. 
+        SHAP-based explainability highlights the most influential physiological 
+        parameters contributing to this risk estimation.
+
+        This AI-generated assessment is intended to support clinical 
+        decision-making and should be reviewed by qualified healthcare professionals.
         """
 
+        # ======================================================
+        # HTML Report
+        # ======================================================
         html = f"""
         <html>
         <head>
@@ -64,6 +80,10 @@ class ReportAgent:
                 th {{
                     background-color: #2980b9;
                     color: white;
+                }}
+                .highlight {{
+                    background-color: #d4edda;
+                    font-weight: bold;
                 }}
                 .prob-box {{
                     margin-top: 30px;
@@ -98,20 +118,31 @@ class ReportAgent:
                     <th>F1 Score</th>
                     <th>AUC</th>
                 </tr>
-                <tr>
+
+                <tr class="{'highlight' if best_model == 'Logistic Regression' else ''}">
                     <td>Logistic Regression</td>
                     <td>{lr_metrics['accuracy']:.4f}</td>
                     <td>{lr_metrics['recall']:.4f}</td>
                     <td>{lr_metrics['f1']:.4f}</td>
                     <td>{lr_metrics['auc']:.4f}</td>
                 </tr>
-                <tr>
+
+                <tr class="{'highlight' if best_model == 'Random Forest' else ''}">
+                    <td>Random Forest</td>
+                    <td>{rf_metrics['accuracy']:.4f}</td>
+                    <td>{rf_metrics['recall']:.4f}</td>
+                    <td>{rf_metrics['f1']:.4f}</td>
+                    <td>{rf_metrics['auc']:.4f}</td>
+                </tr>
+
+                <tr class="{'highlight' if best_model == 'LightGBM' else ''}">
                     <td>LightGBM</td>
                     <td>{lgb_metrics['accuracy']:.4f}</td>
                     <td>{lgb_metrics['recall']:.4f}</td>
                     <td>{lgb_metrics['f1']:.4f}</td>
                     <td>{lgb_metrics['auc']:.4f}</td>
                 </tr>
+
             </table>
         </div>
 

@@ -25,6 +25,10 @@
                     background-color: #2980b9;
                     color: white;
                 }
+                .highlight {
+                    background-color: #d4edda;
+                    font-weight: bold;
+                }
                 .prob-box {
                     margin-top: 30px;
                     padding: 20px;
@@ -41,7 +45,7 @@
         <body>
 
         <h1>Medical Assessment Report</h1>
-        <p><i>Generated on: 2026-02-14 18:28:45</i></p>
+        <p><i>Generated on: 2026-02-26 19:31:21</i></p>
 
         <div class="section">
             <h2>Disease: Diabetes</h2>
@@ -58,20 +62,31 @@
                     <th>F1 Score</th>
                     <th>AUC</th>
                 </tr>
-                <tr>
+
+                <tr class="">
                     <td>Logistic Regression</td>
-                    <td>0.7478</td>
-                    <td>0.7711</td>
-                    <td>0.7565</td>
-                    <td>0.8203</td>
+                    <td>0.7462</td>
+                    <td>0.7664</td>
+                    <td>0.7543</td>
+                    <td>0.8178</td>
                 </tr>
-                <tr>
+
+                <tr class="">
+                    <td>Random Forest</td>
+                    <td>0.7436</td>
+                    <td>0.7894</td>
+                    <td>0.7578</td>
+                    <td>0.8201</td>
+                </tr>
+
+                <tr class="highlight">
                     <td>LightGBM</td>
-                    <td>0.7507</td>
-                    <td>0.7918</td>
-                    <td>0.7635</td>
-                    <td>0.8233</td>
+                    <td>0.7496</td>
+                    <td>0.7899</td>
+                    <td>0.7623</td>
+                    <td>0.8240</td>
                 </tr>
+
             </table>
         </div>
 
@@ -86,61 +101,61 @@
                 
             <tr>
                 <td>HighBP</td>
-                <td>-0.3816</td>
+                <td>-0.377</td>
                 <td>Low</td>
             </tr>
             
             <tr>
                 <td>HighChol</td>
-                <td>-0.1564</td>
+                <td>-0.1526</td>
                 <td>Low</td>
             </tr>
             
             <tr>
                 <td>CholCheck</td>
-                <td>0.0499</td>
+                <td>0.05</td>
                 <td>High</td>
             </tr>
             
             <tr>
                 <td>BMI</td>
-                <td>0.2726</td>
+                <td>0.2604</td>
                 <td>High</td>
             </tr>
             
             <tr>
                 <td>Smoker</td>
-                <td>-0.0034</td>
-                <td>Low</td>
+                <td>0.0004</td>
+                <td>High</td>
             </tr>
             
             <tr>
                 <td>Stroke</td>
-                <td>-0.0146</td>
+                <td>-0.0063</td>
                 <td>Low</td>
             </tr>
             
             <tr>
                 <td>HeartDiseaseorAttack</td>
-                <td>-0.0588</td>
+                <td>-0.0586</td>
                 <td>Low</td>
             </tr>
             
             <tr>
                 <td>PhysActivity</td>
-                <td>-0.0112</td>
+                <td>-0.0079</td>
                 <td>Low</td>
             </tr>
             
             <tr>
                 <td>Fruits</td>
-                <td>0.0042</td>
+                <td>0.0058</td>
                 <td>High</td>
             </tr>
             
             <tr>
                 <td>Veggies</td>
-                <td>-0.0244</td>
+                <td>-0.0209</td>
                 <td>Low</td>
             </tr>
             
@@ -148,7 +163,7 @@
         </div>
 
         <div class="prob-box">
-            Predicted Probability: 23.50% <br>
+            Predicted Probability: 24.21% <br>
             Risk Level: Low Risk
         </div>
 
@@ -156,9 +171,13 @@
             <h2>Interpretation</h2>
             <p>
         The patient shows a <b>Low Risk</b> for Diabetes with a predicted probability 
-        of <b>23.50%</b>. The SHAP analysis highlights the most influential 
-        clinical features contributing to this assessment. This automated evaluation 
-        supports clinical decision-making but should be reviewed by medical professionals.
+        of <b>24.21%</b>. The optimal predictive model selected was 
+        <b>LightGBM</b> based on AUC performance comparison. 
+        SHAP-based explainability highlights the most influential physiological 
+        parameters contributing to this risk estimation.
+
+        This AI-generated assessment is intended to support clinical 
+        decision-making and should be reviewed by qualified healthcare professionals.
         </p>
         </div>
 

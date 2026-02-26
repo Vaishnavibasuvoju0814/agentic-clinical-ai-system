@@ -1,5 +1,3 @@
-# agents/explainability_agent.py
-
 import shap
 import numpy as np
 
@@ -16,19 +14,54 @@ class ExplainabilityAgent:
         # Take first test patient
         sample = X_test.iloc[[0]]
 
-        # ---------------- SHAP ----------------
-        if best_model == "LightGBM":
+        # ======================================================
+        # SHAP Explainer Selection
+        # ======================================================
+
+        if best_model in ["LightGBM", "Random Forest"]:
 
             explainer = shap.TreeExplainer(model)
             shap_values = explainer(sample)
 
-            # New SHAP format fix
-            shap_vals = shap_values.values[0]
+            # Extract raw numpy values safely
+            if hasattr(shap_values, "values"):
+                shap_vals = shap_values.values
+            else:
+                shap_vals = shap_values
 
-        else:
+            # Convert to numpy array
+            shap_vals = np.array(shap_vals)
+
+            # If 3D (1, features, classes) → take class 1
+            if shap_vals.ndim == 3:
+                shap_vals = shap_vals[:, :, 1]
+
+            # If list style → take class 1
+            if isinstance(shap_vals, list):
+                shap_vals = shap_vals[1]
+
+            # Now take first sample
+            shap_vals = shap_vals[0]
+
+        elif best_model == "Logistic Regression":
 
             explainer = shap.LinearExplainer(model, X_test)
-            shap_vals = explainer.shap_values(sample)[0]
+            shap_vals = explainer.shap_values(sample)
+
+            shap_vals = np.array(shap_vals)
+
+            # If binary list → take class 1
+            if shap_vals.ndim == 3:
+                shap_vals = shap_vals[1]
+
+            shap_vals = shap_vals[0]
+
+        else:
+            raise ValueError(f"Unsupported model type: {best_model}")
+
+        # ======================================================
+        # SHAP Processing
+        # ======================================================
 
         feature_names = sample.columns
 
@@ -37,13 +70,17 @@ class ExplainabilityAgent:
 
         for i, feature in enumerate(feature_names):
 
-            value = float(shap_vals[i])
+            value = float(np.squeeze(shap_vals[i]))  # <-- FINAL SAFE FIX
             shap_dict[feature] = round(value, 4)
 
             if value > 0:
                 contribution_dict[feature] = "High"
             else:
                 contribution_dict[feature] = "Low"
+
+        # ======================================================
+        # Risk Calculation
+        # ======================================================
 
         probability = model.predict_proba(sample)[0][1]
 
@@ -56,6 +93,7 @@ class ExplainabilityAgent:
 
         return {
             "disease": disease,
+            "best_model": best_model,
             "probability": round(float(probability), 4),
             "risk_level": risk,
             "shap_values": shap_dict,
